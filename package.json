@@ -1,0 +1,31 @@
+{
+  "name": "get-package-json",
+  "version": "1.0.0",
+  "description": "A tool gets the package info of node modules.",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "rollup -c -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Unique111/get-package-json.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Unique111/get-package-json/issues"
+  },
+  "homepage": "https://github.com/Unique111/get-package-json#readme",
+  "keywords": [
+		"npm",
+		"registry",
+		"package",
+		"pkg",
+		"package.json",
+		"json",
+		"module"
+	],
+  "devDependencies": {
+    "rollup": "^0.66.6"
+  },
+  "dependencies": {}
+}
