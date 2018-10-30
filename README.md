@@ -1,19 +1,19 @@
-# get-package-json
+# fetch-pkgs-info
 A tool gets the package info of node modules.
 
 ### Install
 Install from the NPM repository using yarn or npm:
 ```bash
-yarn add get-package-json
+yarn add fetch-pkgs-info
 ```
 ```bash
-npm install get-package-json
+npm install fetch-pkgs-info
 ```
 
 ### Quick Start
 Create a js file:
 ```javascript
-import GetPackageJsonProcess from 'get-package-json'
+import GetPackageJsonProcess from 'fetch-pkgs-info'
 
 new GetPackageJsonProcess([
   { name: 'react', version: '16.0.0' },
@@ -25,7 +25,7 @@ new GetPackageJsonProcess([
 
 Or you can pass the second parameter to the constructor GetPackageJsonProcess to specify the attributes what need to be returned.
 ```javascript
-import GetPackageJsonProcess from 'get-package-json'
+import GetPackageJsonProcess from 'fetch-pkgs-info'
 
 new GetPackageJsonProcess([
   { name: 'react', version: '16.0.0' },

@@ -1,5 +1,5 @@
 {
-  "name": "get-package-json",
+  "name": "fetch-pkgs-info",
   "version": "1.0.0",
   "description": "A tool gets the package info of node modules.",
   "main": "dist/index.js",
@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Unique111/get-package-json.git"
+    "url": "git+https://github.com/Unique111/fetch-pkgs-info.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Unique111/get-package-json/issues"
+    "url": "https://github.com/Unique111/fetch-pkgs-info/issues"
   },
-  "homepage": "https://github.com/Unique111/get-package-json#readme",
+  "homepage": "https://github.com/Unique111/fetch-pkgs-info#readme",
   "keywords": [
 		"npm",
 		"registry",
