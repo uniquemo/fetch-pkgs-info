@@ -1,6 +1,6 @@
 {
   "name": "fetch-pkgs-info",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A tool gets the package info of node modules.",
   "main": "dist/index.js",
   "scripts": {
