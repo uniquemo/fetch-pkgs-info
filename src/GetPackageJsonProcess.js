@@ -1,15 +1,24 @@
+import {
+  convertDataToArray
+} from './utils/dataFormat'
 const { exec } = require('child_process')
 const fs = require('fs')
 
+const INSTALL_PKG_TOOL = {
+  YARN: 'yarn',
+  NPM: 'npm'
+}
+
 class GetPackageJsonProcess {
-  constructor (modules, attributes) {
-    this.modules = modules
-    this.attributes = attributes
+  constructor ({ modules, attributes, installPkgTool }) {
+    this.modules = convertDataToArray(modules)
+    this.attributes = convertDataToArray(attributes)
+    this.installPkgTool = installPkgTool
   }
 
   execute (command) {
     return new Promise((resolve, reject) => {
-      exec(command, (error, stdout, stderr) => {
+      exec(command, (error, stdout) => {
         if (error) reject(error)
         resolve(stdout)
       })
@@ -17,28 +26,34 @@ class GetPackageJsonProcess {
   }
 
   isYarnCommand () {
-    const yarnLockFile = `${process.cwd()}/yarn.lock`
-    return new Promise((resolve, reject) => {
-      fs.access(yarnLockFile, fs.constants.R_OK | fs.constants.W_OK, (err) => {
-        if (err) reject(err)
-        resolve(true)
+    if (!this.installPkgTool) {
+      const yarnLockFile = `${process.cwd()}/${INSTALL_PKG_TOOL.YARN}.lock`
+      return new Promise((resolve, reject) => {
+        fs.access(yarnLockFile, fs.constants.R_OK | fs.constants.W_OK, (err) => {
+          if (err) reject(err)
+          resolve(true)
+        })
       })
-    })
+    }
+
+    return Promise.resolve(
+      this.installPkgTool === INSTALL_PKG_TOOL.YARN
+        ? true
+        : false
+    )
   }
 
   async getNodeModuleInfo (name, version, attrs) {
     version = version ? `@${version}` : ''
     const isYarnCommand = await this.isYarnCommand()
 
-    const cli = isYarnCommand ? 'yarn' : 'npm'
+    const cli = isYarnCommand ? INSTALL_PKG_TOOL.YARN : INSTALL_PKG_TOOL.NPM
     attrs = isYarnCommand ? '' : attrs
     const command = `${cli} info ${name}${version}${attrs} --json`
 
     try {
       let result = await this.execute(command)
-      result = result.replace(/\s/g, '')
-      result = JSON.parse(result)
-
+      result = JSON.parse(result.replace(/\s/g, ''))
       return isYarnCommand ? result.data : result
     } catch (err) {
       console.error(err)
@@ -47,13 +62,11 @@ class GetPackageJsonProcess {
   }
 
   run () {
-    if (!Array.isArray(this.modules) || !this.modules.length) {
-      throw new Error('this.modules must be an array with element(s)')
+    if (!this.modules.length) {
+      throw new Error('this.modules is needed!!!')
     }
 
-    const attributes = this.attributes || []
-    const attrs = attributes.reduce((prev, curr) => `${prev} ${curr}`, '')
-  
+    const attrs = this.attributes.reduce((prev, curr) => `${prev} ${curr}`, '')
     const promises = this.modules.map(m =>
       this.getNodeModuleInfo(
         m.name,
